@@ -42,7 +42,7 @@ class SoulShardDetails extends Analyzer {
         .icon(SOUL_SHARD_ICON)
         .actual(
           defineMessage({
-            id: 'warlock.demonology.suggestions.soulShards.wastedPerMinutes',
+            id: 'warlock.shared.suggestions.soulShards.wastedPerMinutes',
             message: `${shardsWasted} Soul Shards wasted (${actual.toFixed(2)} per minute)`,
           }),
         )
