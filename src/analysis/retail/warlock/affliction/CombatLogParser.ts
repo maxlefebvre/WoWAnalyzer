@@ -15,8 +15,9 @@ import AlwaysBeCasting from './modules/features/AlwaysBeCasting';
 import CooldownThroughputTracker from './modules/features/CooldownThroughputTracker';
 import Darkglare from './modules/features/Darkglare';
 import DotUptimes from './modules/features/DotUptimes';
-import SoulShardDetails from './modules/resources/SoulShardDetails';
-import SoulShardTracker from './modules/resources/SoulShardTracker';
+import SoulShardDetails from '../shared/SoulShardDetails';
+import SoulShardTracker from '../shared/SoulShardTracker';
+import SoulShardGraph from '../shared/SoulShardGraph';
 import AbsoluteCorruption from './modules/spells/AbsoluteCorruption';
 import AgonyUptime from './modules/spells/Agony';
 import CorruptionUptime from './modules/spells/Corruption';
@@ -45,6 +46,9 @@ class CombatLogParser extends CoreCombatLogParser {
 
     // Core
     globalCooldown: GlobalCooldown,
+    soulShardTracker: SoulShardTracker,
+    soulShardDetails: SoulShardDetails,
+    soulshardGraph: SoulShardGraph,
 
     // Features
     abilities: Abilities,
@@ -60,10 +64,6 @@ class CombatLogParser extends CoreCombatLogParser {
     corruptionUptime: CorruptionUptime,
     unstableAfflictionUptime: UnstableAfflictionUptime,
     dotUptimes: DotUptimes,
-
-    // Resources
-    soulShardTracker: SoulShardTracker,
-    soulShardDetails: SoulShardDetails,
 
     // Talents
     absoluteCorruption: AbsoluteCorruption,

@@ -8,6 +8,8 @@ import Haunt from '../spells/Haunt';
 import ShadowEmbrace from '../spells/ShadowEmbrace';
 import SiphonLife from '../spells/SiphonLife';
 import UnstableAffliction from '../spells/UnstableAffliction';
+import { RoundedPanel } from 'interface/guide/components/GuideDivs';
+import { explanationAndDataSubsection } from 'interface/guide/components/ExplanationRow';
 
 class DotUptimeStatisticBox extends Analyzer {
   static dependencies = {
@@ -25,6 +27,24 @@ class DotUptimeStatisticBox extends Analyzer {
   protected siphonLifeUptime!: SiphonLife;
   protected unstableAfflictionUptime!: UnstableAffliction;
 
+  // TODO: Add explanation and check each implementation
+  get guideSubsection() {
+    const explanation = <p>TODO TODO TODO MAINTAIN YOUR DOTS LOL</p>;
+
+    const data = (
+      <RoundedPanel>
+        <strong>DoT Uptimes</strong>
+        {this.agonyUptime.subStatistic()}
+        {this.corruptionUptime.subStatistic()}
+        {this.unstableAfflictionUptime.subStatistic()}
+        {this.shadowEmbraceUptime.subStatistic()}
+        {this.hauntUptime.active && this.hauntUptime.subStatistic()}
+        {this.siphonLifeUptime.active && this.siphonLifeUptime.subStatistic()}
+      </RoundedPanel>
+    );
+
+    return explanationAndDataSubsection(explanation, data);
+  }
   statistic() {
     return (
       <StatisticBar wide position={STATISTIC_ORDER.CORE(1)}>
