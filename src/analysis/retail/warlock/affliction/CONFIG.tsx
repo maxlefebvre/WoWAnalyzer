@@ -49,6 +49,7 @@ const CONFIG: Config = {
   spec: SPECS.AFFLICTION_WARLOCK,
   // The contents of your changelog.
   changelog: CHANGELOG,
+  guideDefault: true,
   // The CombatLogParser class for your spec.
   parser: () =>
     import('./CombatLogParser' /* webpackChunkName: "AfflictionWarlock" */).then(

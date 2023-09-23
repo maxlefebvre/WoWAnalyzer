@@ -2,7 +2,7 @@ import { defineMessage } from '@lingui/macro';
 import { formatPercentage, formatThousands, formatNumber } from 'common/format';
 import SPELLS from 'common/SPELLS';
 import TALENTS from 'common/TALENTS/warlock';
-import { SpellIcon, SpellLink, TooltipElement } from 'interface';
+import { SpellLink, TooltipElement } from 'interface';
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import { calculateEffectiveDamage } from 'parser/core/EventCalculateLib';
 import Events, { ChangeDebuffStackEvent, DamageEvent } from 'parser/core/Events';
@@ -11,8 +11,9 @@ import Enemies, { encodeTargetString } from 'parser/shared/modules/Enemies';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import TalentSpellText from 'parser/ui/TalentSpellText';
-import UptimeBar from 'parser/ui/UptimeBar';
+import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
 
+const BAR_COLOR = '#536ec9';
 const BONUS_PER_STACK_BASE = 0.015;
 const BUFFER = 50; // for some reason, changedebuffstack triggers twice on the same timestamp for each event, ignore an event if it happened < BUFFER ms after another
 const debug = false;
@@ -171,23 +172,11 @@ class ShadowEmbrace extends Analyzer {
 
   subStatistic() {
     const history = this.enemies.getDebuffHistory(SPELLS.SHADOW_EMBRACE_DEBUFF.id);
-    return (
-      <div className="flex">
-        <div className="flex-sub icon">
-          <SpellIcon spell={SPELLS.SHADOW_EMBRACE_DEBUFF} />
-        </div>
-        <div className="flex-sub value" style={{ width: 140 }}>
-          {formatPercentage(this.totalUptimePercentage, 0)} % <small>uptime</small>
-        </div>
-        <div className="flex-main chart" style={{ padding: 15 }}>
-          <UptimeBar
-            uptimeHistory={history}
-            start={this.owner.fight.start_time}
-            end={this.owner.fight.end_time}
-          />
-        </div>
-      </div>
-    );
+    return uptimeBarSubStatistic(this.owner.fight, {
+      spells: [SPELLS.SHADOW_EMBRACE_DEBUFF],
+      uptimes: history,
+      color: BAR_COLOR,
+    });
   }
 
   statistic() {

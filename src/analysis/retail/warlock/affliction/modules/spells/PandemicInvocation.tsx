@@ -7,7 +7,7 @@ import AbilityTracker from 'parser/shared/modules/AbilityTracker';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 
-import SoulShardTracker from '../resources/SoulShardTracker';
+import SoulShardTracker from '../../../shared/SoulShardTracker';
 import { TooltipElement } from 'interface';
 import TalentSpellText from 'parser/ui/TalentSpellText';
 

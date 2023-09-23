@@ -7,7 +7,7 @@ import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import TalentSpellText from 'parser/ui/TalentSpellText';
 
-import SoulShardTracker from '../resources/SoulShardTracker';
+import SoulShardTracker from '../../../shared/SoulShardTracker';
 
 const SHARDS_PER_HOG = 3;
 const SC_PROC_CHANCE_BASE = 0.05;

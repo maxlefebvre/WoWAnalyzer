@@ -3,8 +3,8 @@ import CastEfficiency from 'parser/shared/modules/CastEfficiency';
 import Combatants from 'parser/shared/modules/Combatants';
 import BaseChecklist from 'parser/shared/modules/features/Checklist/Module';
 
-import SoulShardDetails from '../resources/SoulShardDetails';
-import SoulShardTracker from '../resources/SoulShardTracker';
+import SoulShardDetails from '../../../shared/SoulShardDetails';
+import SoulShardTracker from '../../../shared/SoulShardTracker';
 import Haunt from '../spells/Haunt';
 import ShadowEmbrace from '../spells/ShadowEmbrace';
 import SiphonLife from '../spells/SiphonLife';

@@ -1,7 +1,7 @@
 import { defineMessage } from '@lingui/macro';
 import { formatPercentage, formatThousands, formatNumber } from 'common/format';
 import TALENTS from 'common/TALENTS/warlock';
-import { SpellIcon, SpellLink } from 'interface';
+import { SpellLink } from 'interface';
 import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import { calculateEffectiveDamage } from 'parser/core/EventCalculateLib';
 import Events, { DamageEvent } from 'parser/core/Events';
@@ -10,8 +10,9 @@ import Enemies from 'parser/shared/modules/Enemies';
 import BoringSpellValueText from 'parser/ui/BoringSpellValueText';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
-import UptimeBar from 'parser/ui/UptimeBar';
+import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
 
+const BAR_COLOR = '#5fd478';
 const HAUNT_DAMAGE_BONUS = 0.1;
 
 class Haunt extends Analyzer {
@@ -109,23 +110,11 @@ class Haunt extends Analyzer {
 
   subStatistic() {
     const history = this.enemies.getDebuffHistory(TALENTS.HAUNT_TALENT.id);
-    return (
-      <div className="flex">
-        <div className="flex-sub icon">
-          <SpellIcon spell={TALENTS.HAUNT_TALENT} />
-        </div>
-        <div className="flex-sub value" style={{ width: 140 }}>
-          {formatPercentage(this.uptime, 0)} % <small>uptime</small>
-        </div>
-        <div className="flex-main chart" style={{ padding: 15 }}>
-          <UptimeBar
-            uptimeHistory={history}
-            start={this.owner.fight.start_time}
-            end={this.owner.fight.end_time}
-          />
-        </div>
-      </div>
-    );
+    return uptimeBarSubStatistic(this.owner.fight, {
+      spells: [TALENTS.HAUNT_TALENT],
+      uptimes: history,
+      color: BAR_COLOR,
+    });
   }
 }
 

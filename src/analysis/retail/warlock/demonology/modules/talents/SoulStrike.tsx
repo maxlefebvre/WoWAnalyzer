@@ -8,7 +8,7 @@ import ItemDamageDone from 'parser/ui/ItemDamageDone';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 
-import SoulShardTracker from '../resources/SoulShardTracker';
+import SoulShardTracker from '../../../shared/SoulShardTracker';
 
 class SoulStrike extends Analyzer {
   static dependencies = {

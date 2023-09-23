@@ -29,7 +29,15 @@ class DotUptimeStatisticBox extends Analyzer {
 
   // TODO: Add explanation and check each implementation
   get guideSubsection() {
-    const explanation = <p>TODO TODO TODO MAINTAIN YOUR DOTS LOL</p>;
+    const explanation = (
+      <p>
+        <b>
+          Keep your DoTs up on the boss. <br />
+        </b>
+        Affliction Warlocks rely heavily on DoTs in order to deal damage to the target. You should
+        try and have as high of an uptime as possible.
+      </p>
+    );
 
     const data = (
       <RoundedPanel>
