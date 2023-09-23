@@ -35,6 +35,7 @@ import TormentedCrescendo from './modules/spells/TormentedCrescendo';
 import UnstableAfflictionUptime from './modules/spells/UnstableAffliction';
 import VileTaint from './modules/spells/VileTaint';
 import WrathOfConsumption from './modules/spells/WrathOfConsumption';
+import CancelledCasts from './modules/features/CancelledCasts';
 import CallToDominance from 'parser/retail/modules/items/dragonflight/CallToDominance';
 import Guide from './Guide';
 
@@ -54,6 +55,7 @@ class CombatLogParser extends CoreCombatLogParser {
     // Features
     abilities: Abilities,
     alwaysBeCasting: AlwaysBeCasting,
+    cancelledCasts: CancelledCasts,
     cooldownThroughputTracker: CooldownThroughputTracker,
     checklist: Checklist,
     darkglare: Darkglare,
