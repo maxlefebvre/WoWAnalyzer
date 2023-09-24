@@ -9,6 +9,11 @@ import BoringSpellValueText from 'parser/ui/BoringSpellValueText';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import UptimeIcon from 'interface/icons/Uptime';
+import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
+import { OpenTimePeriod, mergeTimePeriods } from 'parser/core/mergeTimePeriods';
+import { TrackedBuffEvent } from 'parser/core/Entity';
+
+const BAR_COLOR = '#2d1336';
 
 export default class DreadTouch extends Analyzer {
   static dependencies = {
@@ -19,6 +24,22 @@ export default class DreadTouch extends Analyzer {
 
   get uptime() {
     return this.enemies.getBuffUptime(SPELLS.DREAD_TOUCH_DEBUFF.id) / this.owner.fightDuration;
+  }
+
+  private get uptimePeriods(): OpenTimePeriod[] {
+    const events: OpenTimePeriod[] = [];
+    const entities = this.enemies.getEntities();
+    Object.values(entities).forEach((enemy) => {
+      enemy
+        .getBuffHistory(SPELLS.DREAD_TOUCH_DEBUFF.id, this.selectedCombatant.id)
+        .forEach((buff: TrackedBuffEvent) => {
+          events.push({
+            start: buff.start,
+            end: buff.end ?? this.owner.fight.end_time,
+          });
+        });
+    });
+    return events;
   }
 
   get suggestionThresholds() {
@@ -63,5 +84,13 @@ export default class DreadTouch extends Analyzer {
         </BoringSpellValueText>
       </Statistic>
     );
+  }
+
+  subStatistic() {
+    return uptimeBarSubStatistic(this.owner.fight, {
+      spells: [TALENTS.DREAD_TOUCH_TALENT],
+      uptimes: mergeTimePeriods(this.uptimePeriods, this.owner.currentTimestamp),
+      color: BAR_COLOR,
+    });
   }
 }

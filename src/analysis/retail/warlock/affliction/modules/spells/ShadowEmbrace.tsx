@@ -151,6 +151,10 @@ class ShadowEmbrace extends Analyzer {
     return (this.damage / this.owner.fightDuration) * 1000;
   }
 
+  get barColour() {
+    return BAR_COLOR;
+  }
+
   suggestions(when: When) {
     when(this.suggestionThresholds).addSuggestion((suggest, actual, recommended) =>
       suggest(
@@ -168,6 +172,10 @@ class ShadowEmbrace extends Analyzer {
         )
         .recommended(`>${formatPercentage(recommended)}% is recommended`),
     );
+  }
+
+  stackUptime() {
+    return this.enemies.getDebuffStackHistory(SPELLS.SHADOW_EMBRACE_DEBUFF.id);
   }
 
   subStatistic() {
