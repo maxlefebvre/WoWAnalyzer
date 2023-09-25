@@ -10,7 +10,7 @@ export default function Guide({ modules, events, info }: GuideProps<typeof Comba
   return (
     <>
       <Section title="Core">
-        <Section title="DoTs">
+        <Section title="DoTs and Debuffs">
           {modules.dotUptimes.guideSubsection}
           {info.combatant.hasTalent(TALENTS.SHADOW_EMBRACE_TALENT) &&
             modules.dotUptimes.guideSubsectionShadowEmbrace}
