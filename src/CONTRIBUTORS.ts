@@ -253,7 +253,7 @@ export const dode: Contributor = {
   nickname: 'dode',
   github: 'maxlefebvre',
   discord: 'dode',
-  avatar: avatar('arlie-avatar.jpg'),
+  avatar: avatar('dode-avatar.jpg'),
 };
 export const Anomoly: Contributor = {
   nickname: 'Anomoly',
