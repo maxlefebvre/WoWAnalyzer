@@ -3,18 +3,18 @@ import { formatPercentage, formatThousands, formatNumber } from 'common/format';
 import SPELLS from 'common/SPELLS';
 import TALENTS from 'common/TALENTS/warlock';
 import { SpellLink, TooltipElement } from 'interface';
-import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
+import { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import { calculateEffectiveDamage } from 'parser/core/EventCalculateLib';
 import Events, { ChangeDebuffStackEvent, DamageEvent } from 'parser/core/Events';
 import { ThresholdStyle, When } from 'parser/core/ParseResults';
+import DebuffUptime from 'parser/shared/modules/DebuffUptime';
 import Enemies, { encodeTargetString } from 'parser/shared/modules/Enemies';
-import { QualitativePerformance } from 'parser/ui/QualitativePerformance';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import TalentSpellText from 'parser/ui/TalentSpellText';
 import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
+import { SPELL_COLORS } from '../../constants';
 
-const BAR_COLOR = '#536ec9';
 const MAX_STACKS = 3;
 const BONUS_PER_STACK_BASE = 0.015;
 const BUFFER = 50; // for some reason, changedebuffstack triggers twice on the same timestamp for each event, ignore an event if it happened < BUFFER ms after another
@@ -27,10 +27,10 @@ type ShadowEmbraceUptime = {
   uptime: number;
 };
 
-class ShadowEmbrace extends Analyzer {
-  static dependencies = {
-    enemies: Enemies,
-  };
+class ShadowEmbrace extends DebuffUptime {
+  debuffSpell = SPELLS.SHADOW_EMBRACE_DEBUFF;
+  debuffColor = SPELL_COLORS.SHADOW_EMBRACE;
+
   protected enemies!: Enemies;
 
   BONUS_PER_STACK =
@@ -138,20 +138,6 @@ class ShadowEmbrace extends Analyzer {
     };
   }
 
-  get DowntimePerformance(): QualitativePerformance {
-    const downtime = 1 - this.stackedUptime[3];
-    if (downtime <= 0.01) {
-      return QualitativePerformance.Perfect;
-    }
-    if (downtime <= 0.05) {
-      return QualitativePerformance.Good;
-    }
-    if (downtime <= 0.1) {
-      return QualitativePerformance.Ok;
-    }
-    return QualitativePerformance.Fail;
-  }
-
   get stackedUptime() {
     const duration = this.owner.fightDuration;
     // it's easier to calculate no stack uptime as 1 - anyStackUptimePercentage, that's why we ignore this.debuffs[0]
@@ -165,10 +151,6 @@ class ShadowEmbrace extends Analyzer {
 
   get dps() {
     return (this.damage / this.owner.fightDuration) * 1000;
-  }
-
-  get barColour() {
-    return BAR_COLOR;
   }
 
   get maxStacks() {
@@ -204,7 +186,7 @@ class ShadowEmbrace extends Analyzer {
       spells: [SPELLS.SHADOW_EMBRACE_DEBUFF],
       perf: this.DowntimePerformance,
       uptimes: history,
-      color: BAR_COLOR,
+      color: this.debuffColor,
     });
   }
 

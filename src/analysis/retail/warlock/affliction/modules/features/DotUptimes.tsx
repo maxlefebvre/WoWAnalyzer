@@ -113,7 +113,7 @@ class DotUptimeStatisticBox extends Analyzer {
             <UptimeStackBar
               start={this.owner.fight.start_time}
               end={this.owner.fight.end_time}
-              barColor={this.shadowEmbraceUptime.barColour}
+              barColor={this.shadowEmbraceUptime.debuffColor}
               timeTooltip
               {...this.shadowEmbraceUptime.stackUptime()}
             />

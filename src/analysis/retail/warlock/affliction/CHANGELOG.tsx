@@ -5,7 +5,7 @@ import { Arlie, Jonfanz, Meldris, ToppleTheNun, dodse, dode} from 'CONTRIBUTORS'
 import { SpellLink } from 'interface';
 
 export default [
-  change(date(2023, 9, 21), 'Revamp to guide format', dode), // TODO: Fix date
+  change(date(2023, 9, 24), 'Revamp to guide format', dode), // TODO: Fix date
   change(date(2023, 7, 31), 'Update CDR on Dark Pact and Unending Resolve', Arlie),
   change(date(2023, 7, 8), 'Update SpellLink usage.', ToppleTheNun),
   change(date(2023, 7, 8), "Removed Demonic Circle use tracker in utility and defensive spells", Meldris),

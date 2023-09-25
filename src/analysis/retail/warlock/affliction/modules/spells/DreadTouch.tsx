@@ -2,7 +2,6 @@ import { formatPercentage } from 'common/format';
 import SPELLS from 'common/SPELLS';
 import TALENTS from 'common/TALENTS/warlock';
 import { SpellLink } from 'interface';
-import Analyzer from 'parser/core/Analyzer';
 import { ThresholdStyle, When } from 'parser/core/ParseResults';
 import Enemies from 'parser/shared/modules/Enemies';
 import BoringSpellValueText from 'parser/ui/BoringSpellValueText';
@@ -11,23 +10,17 @@ import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import UptimeIcon from 'interface/icons/Uptime';
 import { OpenTimePeriod, mergeTimePeriods } from 'parser/core/mergeTimePeriods';
 import { TrackedBuffEvent } from 'parser/core/Entity';
-import { QualitativePerformance } from 'parser/ui/QualitativePerformance';
 import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
+import DebuffUptime from 'parser/shared/modules/DebuffUptime';
+import { SPELL_COLORS } from '../../constants';
 
-const BAR_COLOR = '#2d1336';
-
-export default class DreadTouch extends Analyzer {
-  static dependencies = {
-    enemies: Enemies,
-  };
+export default class DreadTouch extends DebuffUptime {
+  debuffSpell = SPELLS.DREAD_TOUCH_DEBUFF;
+  debuffColor = SPELL_COLORS.DREAD_TOUCH;
 
   protected enemies!: Enemies;
 
-  get uptime() {
-    return this.enemies.getBuffUptime(SPELLS.DREAD_TOUCH_DEBUFF.id) / this.owner.fightDuration;
-  }
-
-  private get uptimePeriods(): OpenTimePeriod[] {
+  private get debuffUptimePeriods(): OpenTimePeriod[] {
     const events: OpenTimePeriod[] = [];
     const entities = this.enemies.getEntities();
     Object.values(entities).forEach((enemy) => {
@@ -45,11 +38,11 @@ export default class DreadTouch extends Analyzer {
 
   get suggestionThresholds() {
     return {
-      actual: this.uptime,
+      actual: this.debuffUptime,
       isLessThan: {
-        minor: 0.2,
-        average: 0.15,
-        major: 0.1,
+        minor: 0.95,
+        average: 0.9,
+        major: 0.8,
       },
       style: ThresholdStyle.PERCENTAGE,
     };
@@ -75,38 +68,24 @@ export default class DreadTouch extends Analyzer {
         size="flexible"
         tooltip={
           <>
-            {formatPercentage(this.uptime)} uptime
+            {formatPercentage(this.debuffUptime)} uptime
             <br />
           </>
         }
       >
         <BoringSpellValueText spell={TALENTS.DREAD_TOUCH_TALENT}>
-          <UptimeIcon /> {formatPercentage(this.uptime)} % <small>uptime</small>
+          <UptimeIcon /> {formatPercentage(this.debuffUptime)} % <small>uptime</small>
         </BoringSpellValueText>
       </Statistic>
     );
-  }
-
-  get DowntimePerformance(): QualitativePerformance {
-    const downtime = 1 - this.uptime;
-    if (downtime <= 0.01) {
-      return QualitativePerformance.Perfect;
-    }
-    if (downtime <= 0.05) {
-      return QualitativePerformance.Good;
-    }
-    if (downtime <= 0.1) {
-      return QualitativePerformance.Ok;
-    }
-    return QualitativePerformance.Fail;
   }
 
   subStatistic() {
     return uptimeBarSubStatistic(this.owner.fight, {
       spells: [TALENTS.DREAD_TOUCH_TALENT],
       perf: this.DowntimePerformance,
-      uptimes: mergeTimePeriods(this.uptimePeriods, this.owner.currentTimestamp),
-      color: BAR_COLOR,
+      uptimes: mergeTimePeriods(this.debuffUptimePeriods, this.owner.currentTimestamp),
+      color: this.debuffColor,
     });
   }
 }

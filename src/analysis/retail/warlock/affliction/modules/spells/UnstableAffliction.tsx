@@ -2,31 +2,25 @@ import { defineMessage } from '@lingui/macro';
 import { formatPercentage } from 'common/format';
 import SPELLS from 'common/SPELLS';
 import { SpellLink } from 'interface';
-import Analyzer from 'parser/core/Analyzer';
 import { ThresholdStyle, When } from 'parser/core/ParseResults';
+import DebuffUptime from 'parser/shared/modules/DebuffUptime';
 import Enemies from 'parser/shared/modules/Enemies';
-import { QualitativePerformance } from 'parser/ui/QualitativePerformance';
 import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
+import { SPELL_COLORS } from '../../constants';
 
-const BAR_COLOR = '#d44b11';
+class UnstableAfflictionUptime extends DebuffUptime {
+  debuffSpell = SPELLS.UNSTABLE_AFFLICTION;
+  debuffColor = SPELL_COLORS.UNSTABLE_AFFLICTION;
 
-class UnstableAfflictionUptime extends Analyzer {
-  static dependencies = {
-    enemies: Enemies,
-  };
   protected enemies!: Enemies;
-
-  get uptime() {
-    return this.enemies.getBuffUptime(SPELLS.UNSTABLE_AFFLICTION.id) / this.owner.fightDuration;
-  }
 
   get suggestionThresholds() {
     return {
-      actual: this.uptime,
+      actual: this.debuffUptime,
       isLessThan: {
-        minor: 0.95,
-        average: 0.9,
-        major: 0.8,
+        minor: 0.98,
+        average: 0.95,
+        major: 0.9,
       },
       style: ThresholdStyle.PERCENTAGE,
     };
@@ -51,27 +45,13 @@ class UnstableAfflictionUptime extends Analyzer {
     );
   }
 
-  get DowntimePerformance(): QualitativePerformance {
-    const downtime = 1 - this.uptime;
-    if (downtime <= 0.01) {
-      return QualitativePerformance.Perfect;
-    }
-    if (downtime <= 0.05) {
-      return QualitativePerformance.Good;
-    }
-    if (downtime <= 0.1) {
-      return QualitativePerformance.Ok;
-    }
-    return QualitativePerformance.Fail;
-  }
-
   subStatistic() {
     const history = this.enemies.getDebuffHistory(SPELLS.UNSTABLE_AFFLICTION.id);
     return uptimeBarSubStatistic(this.owner.fight, {
       spells: [SPELLS.UNSTABLE_AFFLICTION],
       perf: this.DowntimePerformance,
       uptimes: history,
-      color: BAR_COLOR,
+      color: this.debuffColor,
     });
   }
 }

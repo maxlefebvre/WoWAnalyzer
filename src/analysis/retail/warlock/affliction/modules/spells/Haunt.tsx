@@ -2,29 +2,25 @@ import { defineMessage } from '@lingui/macro';
 import { formatPercentage, formatThousands, formatNumber } from 'common/format';
 import TALENTS from 'common/TALENTS/warlock';
 import { SpellLink } from 'interface';
-import Analyzer, { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
+import { Options, SELECTED_PLAYER } from 'parser/core/Analyzer';
 import { calculateEffectiveDamage } from 'parser/core/EventCalculateLib';
 import Events, { DamageEvent } from 'parser/core/Events';
 import { ThresholdStyle, When } from 'parser/core/ParseResults';
+import DebuffUptime from 'parser/shared/modules/DebuffUptime';
 import Enemies from 'parser/shared/modules/Enemies';
 import BoringSpellValueText from 'parser/ui/BoringSpellValueText';
-import { QualitativePerformance } from 'parser/ui/QualitativePerformance';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
+import { SPELL_COLORS } from '../../constants';
 
-const BAR_COLOR = '#5fd478';
 const HAUNT_DAMAGE_BONUS = 0.1;
 
-class Haunt extends Analyzer {
-  static dependencies = {
-    enemies: Enemies,
-  };
-  protected enemies!: Enemies;
+class Haunt extends DebuffUptime {
+  debuffSpell = TALENTS.HAUNT_TALENT;
+  debuffColor = SPELL_COLORS.HAUNT;
 
-  get uptime() {
-    return this.enemies.getBuffUptime(TALENTS.HAUNT_TALENT.id) / this.owner.fightDuration;
-  }
+  protected enemies!: Enemies;
 
   get dps() {
     return (this.bonusDmg / this.owner.fightDuration) * 1000;
@@ -32,11 +28,11 @@ class Haunt extends Analyzer {
 
   get suggestionThresholds() {
     return {
-      actual: this.uptime,
+      actual: this.debuffUptime,
       isLessThan: {
-        minor: 0.9,
-        average: 0.85,
-        major: 0.75,
+        minor: 0.95,
+        average: 0.9,
+        major: 0.85,
       },
       style: ThresholdStyle.PERCENTAGE,
     };
@@ -98,7 +94,7 @@ class Haunt extends Analyzer {
         }
       >
         <BoringSpellValueText spell={TALENTS.HAUNT_TALENT}>
-          {formatPercentage(this.uptime)} % <small>uptime</small>
+          {formatPercentage(this.debuffUptime)} % <small>uptime</small>
           <br />
           {formatNumber(this.dps)} DPS{' '}
           <small>
@@ -109,27 +105,13 @@ class Haunt extends Analyzer {
     );
   }
 
-  get DowntimePerformance(): QualitativePerformance {
-    const downtime = 1 - this.uptime;
-    if (downtime <= 0.01) {
-      return QualitativePerformance.Perfect;
-    }
-    if (downtime <= 0.05) {
-      return QualitativePerformance.Good;
-    }
-    if (downtime <= 0.1) {
-      return QualitativePerformance.Ok;
-    }
-    return QualitativePerformance.Fail;
-  }
-
   subStatistic() {
     const history = this.enemies.getDebuffHistory(TALENTS.HAUNT_TALENT.id);
     return uptimeBarSubStatistic(this.owner.fight, {
       spells: [TALENTS.HAUNT_TALENT],
       perf: this.DowntimePerformance,
       uptimes: history,
-      color: BAR_COLOR,
+      color: this.debuffColor,
     });
   }
 }
