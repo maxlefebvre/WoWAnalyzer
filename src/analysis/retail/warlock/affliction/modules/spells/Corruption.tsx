@@ -5,6 +5,7 @@ import { SpellLink } from 'interface';
 import Analyzer from 'parser/core/Analyzer';
 import { ThresholdStyle, When } from 'parser/core/ParseResults';
 import Enemies from 'parser/shared/modules/Enemies';
+import { QualitativePerformance } from 'parser/ui/QualitativePerformance';
 import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
 
 const BAR_COLOR = '#a31010';
@@ -49,10 +50,26 @@ class CorruptionUptime extends Analyzer {
         .recommended(`>${formatPercentage(recommended)}% is recommended`),
     );
   }
+
+  get DowntimePerformance(): QualitativePerformance {
+    const downtime = 1 - this.uptime;
+    if (downtime <= 0.01) {
+      return QualitativePerformance.Perfect;
+    }
+    if (downtime <= 0.05) {
+      return QualitativePerformance.Good;
+    }
+    if (downtime <= 0.1) {
+      return QualitativePerformance.Ok;
+    }
+    return QualitativePerformance.Fail;
+  }
+
   subStatistic() {
     const history = this.enemies.getDebuffHistory(SPELLS.CORRUPTION_DEBUFF.id);
     return uptimeBarSubStatistic(this.owner.fight, {
       spells: [SPELLS.CORRUPTION_DEBUFF],
+      perf: this.DowntimePerformance,
       uptimes: history,
       color: BAR_COLOR,
     });

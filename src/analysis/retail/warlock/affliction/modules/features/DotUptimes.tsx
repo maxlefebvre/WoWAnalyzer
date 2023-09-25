@@ -14,8 +14,10 @@ import TALENTS from 'common/TALENTS/warlock';
 import SpellLink from 'interface/SpellLink';
 import SPELLS from 'common/SPELLS';
 import UptimeStackBar from 'parser/ui/UptimeStackBar';
-import { formatPercentage } from 'common/format';
 import DreadTouch from '../spells/DreadTouch';
+import { PerformanceLabel } from 'parser/ui/PerformanceLabel';
+import { formatPercentage } from 'common/format';
+import { TooltipElement } from 'interface';
 
 class DotUptimeStatisticBox extends Analyzer {
   static dependencies = {
@@ -80,11 +82,27 @@ class DotUptimeStatisticBox extends Analyzer {
           <SpellLink spell={SPELLS.SHADOW_EMBRACE_DEBUFF} /> uptime
         </strong>
         <div className="flex-main">
-          {formatPercentage((this.shadowEmbraceUptime as ShadowEmbrace).totalUptimePercentage)}%{' '}
-          <small>uptime</small>
+          <div className="flex-sub bar-label">
+            <PerformanceLabel performance={this.shadowEmbraceUptime.DowntimePerformance}>
+              {' '}
+              {formatPercentage((this.shadowEmbraceUptime as ShadowEmbrace).totalUptimePercentage)}%
+            </PerformanceLabel>{' '}
+            <TooltipElement
+              content={
+                <>
+                  No stacks: {formatPercentage(this.shadowEmbraceUptime.stackedUptime[0])} %<br />1
+                  stack: {formatPercentage(this.shadowEmbraceUptime.stackedUptime[1])} %<br />2
+                  stacks: {formatPercentage(this.shadowEmbraceUptime.stackedUptime[2])} %
+                  <br />3 stacks: {formatPercentage(this.shadowEmbraceUptime.stackedUptime[3])} %
+                </>
+              }
+            >
+              <small>uptime</small>
+            </TooltipElement>
+          </div>
           <div
             style={{
-              height: '40px' /* UptimeStackBar floats and doesn't have an intrinsic height */,
+              height: '40px',
             }}
           >
             {

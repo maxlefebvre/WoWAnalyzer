@@ -1,4 +1,4 @@
-import { GuideProps, Section, SubSection } from 'interface/guide';
+import { GuideProps, Section } from 'interface/guide';
 import CombatLogParser from './CombatLogParser';
 import PreparationSection from 'interface/guide/components/Preparation/PreparationSection';
 import CooldownGraphSubsection from './modules/guide/CooldownSubsection';
@@ -29,10 +29,6 @@ export default function Guide({ modules, events, info }: GuideProps<typeof Comba
 
       <Section title="Cooldowns">
         <CooldownGraphSubsection.CooldownGraph />
-      </Section>
-
-      <Section title="Proc Usage">
-        <SubSection>Coming Soon!</SubSection>
       </Section>
 
       <PreparationSection />

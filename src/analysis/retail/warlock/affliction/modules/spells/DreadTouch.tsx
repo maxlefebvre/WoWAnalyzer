@@ -9,9 +9,10 @@ import BoringSpellValueText from 'parser/ui/BoringSpellValueText';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import UptimeIcon from 'interface/icons/Uptime';
-import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
 import { OpenTimePeriod, mergeTimePeriods } from 'parser/core/mergeTimePeriods';
 import { TrackedBuffEvent } from 'parser/core/Entity';
+import { QualitativePerformance } from 'parser/ui/QualitativePerformance';
+import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
 
 const BAR_COLOR = '#2d1336';
 
@@ -86,9 +87,24 @@ export default class DreadTouch extends Analyzer {
     );
   }
 
+  get DowntimePerformance(): QualitativePerformance {
+    const downtime = 1 - this.uptime;
+    if (downtime <= 0.01) {
+      return QualitativePerformance.Perfect;
+    }
+    if (downtime <= 0.05) {
+      return QualitativePerformance.Good;
+    }
+    if (downtime <= 0.1) {
+      return QualitativePerformance.Ok;
+    }
+    return QualitativePerformance.Fail;
+  }
+
   subStatistic() {
     return uptimeBarSubStatistic(this.owner.fight, {
       spells: [TALENTS.DREAD_TOUCH_TALENT],
+      perf: this.DowntimePerformance,
       uptimes: mergeTimePeriods(this.uptimePeriods, this.owner.currentTimestamp),
       color: BAR_COLOR,
     });

@@ -5,6 +5,7 @@ import { SpellLink } from 'interface';
 import Analyzer from 'parser/core/Analyzer';
 import { ThresholdStyle, When } from 'parser/core/ParseResults';
 import Enemies from 'parser/shared/modules/Enemies';
+import { QualitativePerformance } from 'parser/ui/QualitativePerformance';
 import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
 
 const BAR_COLOR = '#d44b11';
@@ -50,10 +51,25 @@ class UnstableAfflictionUptime extends Analyzer {
     );
   }
 
+  get DowntimePerformance(): QualitativePerformance {
+    const downtime = 1 - this.uptime;
+    if (downtime <= 0.01) {
+      return QualitativePerformance.Perfect;
+    }
+    if (downtime <= 0.05) {
+      return QualitativePerformance.Good;
+    }
+    if (downtime <= 0.1) {
+      return QualitativePerformance.Ok;
+    }
+    return QualitativePerformance.Fail;
+  }
+
   subStatistic() {
     const history = this.enemies.getDebuffHistory(SPELLS.UNSTABLE_AFFLICTION.id);
     return uptimeBarSubStatistic(this.owner.fight, {
       spells: [SPELLS.UNSTABLE_AFFLICTION],
+      perf: this.DowntimePerformance,
       uptimes: history,
       color: BAR_COLOR,
     });

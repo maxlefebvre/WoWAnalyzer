@@ -8,6 +8,7 @@ import Events, { DamageEvent } from 'parser/core/Events';
 import { ThresholdStyle, When } from 'parser/core/ParseResults';
 import Enemies from 'parser/shared/modules/Enemies';
 import BoringSpellValueText from 'parser/ui/BoringSpellValueText';
+import { QualitativePerformance } from 'parser/ui/QualitativePerformance';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
@@ -108,10 +109,25 @@ class Haunt extends Analyzer {
     );
   }
 
+  get DowntimePerformance(): QualitativePerformance {
+    const downtime = 1 - this.uptime;
+    if (downtime <= 0.01) {
+      return QualitativePerformance.Perfect;
+    }
+    if (downtime <= 0.05) {
+      return QualitativePerformance.Good;
+    }
+    if (downtime <= 0.1) {
+      return QualitativePerformance.Ok;
+    }
+    return QualitativePerformance.Fail;
+  }
+
   subStatistic() {
     const history = this.enemies.getDebuffHistory(TALENTS.HAUNT_TALENT.id);
     return uptimeBarSubStatistic(this.owner.fight, {
       spells: [TALENTS.HAUNT_TALENT],
+      perf: this.DowntimePerformance,
       uptimes: history,
       color: BAR_COLOR,
     });

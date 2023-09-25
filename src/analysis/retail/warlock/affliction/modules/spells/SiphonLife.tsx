@@ -5,6 +5,7 @@ import { SpellLink } from 'interface';
 import Analyzer, { Options } from 'parser/core/Analyzer';
 import { ThresholdStyle, When } from 'parser/core/ParseResults';
 import Enemies from 'parser/shared/modules/Enemies';
+import { QualitativePerformance } from 'parser/ui/QualitativePerformance';
 import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
 
 const BAR_COLOR = '#306b1c';
@@ -55,10 +56,25 @@ class SiphonLifeUptime extends Analyzer {
     );
   }
 
+  get DowntimePerformance(): QualitativePerformance {
+    const downtime = 1 - this.uptime;
+    if (downtime <= 0.01) {
+      return QualitativePerformance.Perfect;
+    }
+    if (downtime <= 0.05) {
+      return QualitativePerformance.Good;
+    }
+    if (downtime <= 0.1) {
+      return QualitativePerformance.Ok;
+    }
+    return QualitativePerformance.Fail;
+  }
+
   subStatistic() {
     const history = this.enemies.getDebuffHistory(TALENTS.SIPHON_LIFE_TALENT.id);
     return uptimeBarSubStatistic(this.owner.fight, {
       spells: [TALENTS.SIPHON_LIFE_TALENT],
+      perf: this.DowntimePerformance,
       uptimes: history,
       color: BAR_COLOR,
     });
