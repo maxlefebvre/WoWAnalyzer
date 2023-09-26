@@ -37,6 +37,8 @@ import VileTaint from './modules/spells/VileTaint';
 import WrathOfConsumption from './modules/spells/WrathOfConsumption';
 import CancelledCasts from './modules/features/CancelledCasts';
 import CallToDominance from 'parser/retail/modules/items/dragonflight/CallToDominance';
+import ShadowEmbraceStackGraph from './modules/spells/ShadowEmbraceStackGraph';
+import ShadowEmbraceStackTracker from './modules/spells/ShadowEmbraceStackTracker';
 import Guide from './Guide';
 
 class CombatLogParser extends CoreCombatLogParser {
@@ -51,6 +53,8 @@ class CombatLogParser extends CoreCombatLogParser {
     soulShardTracker: SoulShardTracker,
     soulShardDetails: SoulShardDetails,
     soulshardGraph: SoulShardGraph,
+    shadowEmbraceStackTracker: ShadowEmbraceStackTracker,
+    shadowEmbraceStackGraph: ShadowEmbraceStackGraph,
 
     // Features
     abilities: Abilities,

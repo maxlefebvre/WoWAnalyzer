@@ -12,10 +12,10 @@ export default function Guide({ modules, events, info }: GuideProps<typeof Comba
       <Section title="Core">
         <Section title="DoTs and Debuffs">
           {modules.dotUptimes.guideSubsection}
-          {info.combatant.hasTalent(TALENTS.SHADOW_EMBRACE_TALENT) &&
-            modules.dotUptimes.guideSubsectionShadowEmbrace}
           {info.combatant.hasTalent(TALENTS.DREAD_TOUCH_TALENT) &&
-            modules.dotUptimes.guideSubsectionDreadTouch}
+            modules.dreadTouch.guideSubsection}
+          {info.combatant.hasTalent(TALENTS.SHADOW_EMBRACE_TALENT) &&
+            modules.shadowEmbrace.guideSubsection}
         </Section>
 
         <Section title="SoulShards">

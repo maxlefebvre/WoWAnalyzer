@@ -18,9 +18,9 @@ class CorruptionUptime extends DebuffUptime {
     return {
       actual: this.debuffUptime,
       isLessThan: {
-        minor: 0.98,
-        average: 0.95,
-        major: 0.9,
+        minor: 0.95,
+        average: 0.9,
+        major: 0.85,
       },
       style: ThresholdStyle.PERCENTAGE,
     };

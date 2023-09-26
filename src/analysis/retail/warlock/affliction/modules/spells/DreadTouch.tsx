@@ -13,6 +13,8 @@ import { TrackedBuffEvent } from 'parser/core/Entity';
 import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
 import DebuffUptime from 'parser/shared/modules/DebuffUptime';
 import { SPELL_COLORS } from '../../constants';
+import { RoundedPanel } from 'interface/guide/components/GuideDivs';
+import { explanationAndDataSubsection } from 'interface/guide/components/ExplanationRow';
 
 export default class DreadTouch extends DebuffUptime {
   debuffSpell = SPELLS.DREAD_TOUCH_DEBUFF;
@@ -40,9 +42,9 @@ export default class DreadTouch extends DebuffUptime {
     return {
       actual: this.debuffUptime,
       isLessThan: {
-        minor: 0.95,
-        average: 0.9,
-        major: 0.8,
+        minor: 0.9,
+        average: 0.8,
+        major: 0.7,
       },
       style: ThresholdStyle.PERCENTAGE,
     };
@@ -87,5 +89,31 @@ export default class DreadTouch extends DebuffUptime {
       uptimes: mergeTimePeriods(this.debuffUptimePeriods, this.owner.currentTimestamp),
       color: this.debuffColor,
     });
+  }
+
+  get guideSubsection() {
+    const explanation = (
+      <p>
+        <b>
+          Try to maintain <SpellLink spell={SPELLS.DREAD_TOUCH_DEBUFF} /> uptime as high as possible
+          by refreshing it with <SpellLink spell={SPELLS.MALEFIC_RAPTURE} />
+        </b>
+        <br />
+        You may not be able to maintain this debuff at all times but you can maximize its uptime by
+        delaying casting <SpellLink spell={SPELLS.MALEFIC_RAPTURE} />
+        unless you will overcap soul shards or conversly by earlier to refresh the debuff.
+      </p>
+    );
+
+    const data = (
+      <RoundedPanel>
+        <strong>
+          <SpellLink spell={SPELLS.DREAD_TOUCH_DEBUFF} /> uptime
+        </strong>
+        {this.active && this.subStatistic()}
+      </RoundedPanel>
+    );
+
+    return explanationAndDataSubsection(explanation, data);
   }
 }

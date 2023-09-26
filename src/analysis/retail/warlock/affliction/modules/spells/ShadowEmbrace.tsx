@@ -1,4 +1,4 @@
-import { defineMessage } from '@lingui/macro';
+import { Trans, defineMessage, t } from '@lingui/macro';
 import { formatPercentage, formatThousands, formatNumber } from 'common/format';
 import SPELLS from 'common/SPELLS';
 import TALENTS from 'common/TALENTS/warlock';
@@ -14,6 +14,9 @@ import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import TalentSpellText from 'parser/ui/TalentSpellText';
 import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
 import { SPELL_COLORS } from '../../constants';
+import { SubSection } from 'interface/guide';
+import ShadowEmbraceStackGraph from './ShadowEmbraceStackGraph';
+import { PerformanceLabel } from 'parser/ui/PerformanceLabel';
 
 const MAX_STACKS = 3;
 const BONUS_PER_STACK_BASE = 0.015;
@@ -28,10 +31,16 @@ type ShadowEmbraceUptime = {
 };
 
 class ShadowEmbrace extends DebuffUptime {
+  static dependencies = {
+    ...DebuffUptime.dependencies,
+    shadowEmbraceStackGraph: ShadowEmbraceStackGraph,
+  };
+
   debuffSpell = SPELLS.SHADOW_EMBRACE_DEBUFF;
   debuffColor = SPELL_COLORS.SHADOW_EMBRACE;
 
   protected enemies!: Enemies;
+  protected shadowEmbraceStackGraph!: ShadowEmbraceStackGraph;
 
   BONUS_PER_STACK =
     BONUS_PER_STACK_BASE * this.selectedCombatant.getTalentRank(TALENTS.SHADOW_EMBRACE_TALENT);
@@ -132,7 +141,7 @@ class ShadowEmbrace extends DebuffUptime {
       isLessThan: {
         minor: 0.95,
         average: 0.9,
-        major: 0.8,
+        major: 0.85,
       },
       style: ThresholdStyle.PERCENTAGE,
     };
@@ -220,6 +229,47 @@ class ShadowEmbrace extends DebuffUptime {
           </small>
         </TalentSpellText>
       </Statistic>
+    );
+  }
+
+  get guideSubsection() {
+    return (
+      <SubSection
+        title={t({
+          id: 'guide.warlock.affliction.core.shadowEmbrace.title',
+          message: 'Shadow Embrace Uptime',
+        })}
+      >
+        <p>
+          <Trans id="guide.warlock.affliction.core.shadowEmbrace.summary">
+            <b>
+              You averaged an uptime of{' '}
+              <TooltipElement
+                content={
+                  <>
+                    No stacks: {formatPercentage(this.stackedUptime[0])} %<br />1 stack:{' '}
+                    {formatPercentage(this.stackedUptime[1])} %<br />2 stacks:{' '}
+                    {formatPercentage(this.stackedUptime[2])} %
+                    <br />3 stacks: {formatPercentage(this.stackedUptime[3])} %
+                  </>
+                }
+              >
+                <PerformanceLabel performance={this.DowntimePerformance}>
+                  {' '}
+                  {formatPercentage(this.totalUptimePercentage)}%
+                </PerformanceLabel>{' '}
+              </TooltipElement>
+            </b>
+            <br />
+            Try to maximize the the uptime at 3 stacks of{' '}
+            <SpellLink spell={TALENTS.SHADOW_EMBRACE_TALENT} /> by refreshing with{' '}
+            <SpellLink spell={SPELLS.DRAIN_SOUL_DEBUFF} />
+            Unlike your DoTs, it does not deal direct damage but instead increases all damage dealt
+            to the target stacking up to 3 times.
+          </Trans>
+        </p>
+        {this.shadowEmbraceStackGraph.plot}
+      </SubSection>
     );
   }
 }
