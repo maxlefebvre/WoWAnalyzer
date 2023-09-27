@@ -7,10 +7,10 @@ function ResourceSubsection({ modules }: GuideProps<typeof CombatLogParser>) {
     <p>
       <b>
         You wasted{' '}
-        <PerformanceStrong performance={modules.soulShardTracker.WastedSoulShardPerformance}>
-          {modules.soulShardTracker.wasted}
+        <PerformanceStrong performance={modules.soulShardDetails.WastedSoulShardPerformance}>
+          {modules.soulShardDetails.wastedPerMinute.toFixed(1)}
         </PerformanceStrong>{' '}
-        Soul Shards.
+        Soul Shards per minute.
       </b>
       <br />
       The chart below shows your Soul Shards over the course of the encounter. These are your

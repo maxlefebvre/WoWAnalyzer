@@ -12,12 +12,14 @@ import Checklist from './modules/checklist/Module';
 import GlobalCooldown from './modules/core/GlobalCooldown';
 import Abilities from './modules/features/Abilities';
 import AlwaysBeCasting from './modules/features/AlwaysBeCasting';
+import CancelledCasts from './modules/features/CancelledCasts';
 import CooldownThroughputTracker from './modules/features/CooldownThroughputTracker';
 import Darkglare from './modules/features/Darkglare';
 import DotUptimes from './modules/features/DotUptimes';
-import SoulShardDetails from '../shared/SoulShardDetails';
-import SoulShardTracker from '../shared/SoulShardTracker';
-import SoulShardGraph from '../shared/SoulShardGraph';
+import SoulEatersGluttony from './modules/features/SoulEatersGluttony';
+import SoulShardGraph from './modules/resources/SoulShardGraph';
+import SoulShardDetails from './modules/resources/SoulShardDetails';
+import SoulShardTracker from './modules/resources/SoulShardTracker';
 import AbsoluteCorruption from './modules/spells/AbsoluteCorruption';
 import AgonyUptime from './modules/spells/Agony';
 import CorruptionUptime from './modules/spells/Corruption';
@@ -29,18 +31,16 @@ import Nightfall from './modules/spells/Nightfall';
 import PandemicInvocation from './modules/spells/PandemicInvocation';
 import PhantomSingularity from './modules/spells/PhantomSingularity';
 import ShadowEmbrace from './modules/spells/ShadowEmbrace';
+import ShadowEmbraceStackGraph from './modules/spells/ShadowEmbraceStackGraph';
+import ShadowEmbraceStackTracker from './modules/spells/ShadowEmbraceStackTracker';
 import SiphonLifeUptime from './modules/spells/SiphonLife';
 import SoulConduit from './modules/spells/SoulConduit';
 import TormentedCrescendo from './modules/spells/TormentedCrescendo';
 import UnstableAfflictionUptime from './modules/spells/UnstableAffliction';
 import VileTaint from './modules/spells/VileTaint';
 import WrathOfConsumption from './modules/spells/WrathOfConsumption';
-import CancelledCasts from './modules/features/CancelledCasts';
 import CallToDominance from 'parser/retail/modules/items/dragonflight/CallToDominance';
-import ShadowEmbraceStackGraph from './modules/spells/ShadowEmbraceStackGraph';
-import ShadowEmbraceStackTracker from './modules/spells/ShadowEmbraceStackTracker';
 import Guide from './Guide';
-import SoulEatersGluttony from './modules/features/SoulEatersGluttony';
 
 class CombatLogParser extends CoreCombatLogParser {
   static specModules = {

@@ -1,7 +1,7 @@
 import { defineMessage } from '@lingui/macro';
+import { SpellLink } from 'interface';
 import { formatPercentage } from 'common/format';
 import TALENTS from 'common/TALENTS/warlock';
-import { SpellLink } from 'interface';
 import { Options } from 'parser/core/Analyzer';
 import { ThresholdStyle, When } from 'parser/core/ParseResults';
 import DebuffUptime from 'parser/shared/modules/DebuffUptime';

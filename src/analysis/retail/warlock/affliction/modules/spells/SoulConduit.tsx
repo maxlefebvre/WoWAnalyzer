@@ -8,7 +8,7 @@ import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import TalentSpellText from 'parser/ui/TalentSpellText';
 
-import SoulShardTracker from '../../../shared/SoulShardTracker';
+import SoulShardTracker from '../resources/SoulShardTracker';
 
 const SC_PROC_CHANCE_BASE = 0.05;
 

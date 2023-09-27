@@ -1,3 +1,4 @@
+import { TooltipElement } from 'interface';
 import { formatPercentage, formatNumber } from 'common/format';
 import TALENTS from 'common/TALENTS/warlock';
 import SPELLS from 'common/SPELLS/warlock';
@@ -6,10 +7,8 @@ import Events from 'parser/core/Events';
 import AbilityTracker from 'parser/shared/modules/AbilityTracker';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
-
-import SoulShardTracker from '../../../shared/SoulShardTracker';
-import { TooltipElement } from 'interface';
 import TalentSpellText from 'parser/ui/TalentSpellText';
+import SoulShardTracker from '../resources/SoulShardTracker';
 
 const PANDEMIC_INVOCATION_DOTS = [
   SPELLS.AGONY,

@@ -12,9 +12,9 @@ import { OpenTimePeriod, mergeTimePeriods } from 'parser/core/mergeTimePeriods';
 import { TrackedBuffEvent } from 'parser/core/Entity';
 import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
 import DebuffUptime from 'parser/shared/modules/DebuffUptime';
-import { SPELL_COLORS } from '../../constants';
 import { RoundedPanel } from 'interface/guide/components/GuideDivs';
 import { explanationAndDataSubsection } from 'interface/guide/components/ExplanationRow';
+import { SPELL_COLORS } from '../../constants';
 
 export default class DreadTouch extends DebuffUptime {
   debuffSpell = SPELLS.DREAD_TOUCH_DEBUFF;

@@ -1,4 +1,5 @@
 import { Trans, defineMessage, t } from '@lingui/macro';
+import { SubSection } from 'interface/guide';
 import { formatPercentage, formatThousands, formatNumber } from 'common/format';
 import SPELLS from 'common/SPELLS';
 import TALENTS from 'common/TALENTS/warlock';
@@ -12,11 +13,10 @@ import Enemies, { encodeTargetString } from 'parser/shared/modules/Enemies';
 import Statistic from 'parser/ui/Statistic';
 import STATISTIC_CATEGORY from 'parser/ui/STATISTIC_CATEGORY';
 import TalentSpellText from 'parser/ui/TalentSpellText';
-import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
-import { SPELL_COLORS } from '../../constants';
-import { SubSection } from 'interface/guide';
-import ShadowEmbraceStackGraph from './ShadowEmbraceStackGraph';
 import { PerformanceLabel } from 'parser/ui/PerformanceLabel';
+import uptimeBarSubStatistic from 'parser/ui/UptimeBarSubStatistic';
+import ShadowEmbraceStackGraph from './ShadowEmbraceStackGraph';
+import { SPELL_COLORS } from '../../constants';
 
 const MAX_STACKS = 3;
 const BONUS_PER_STACK_BASE = 0.015;

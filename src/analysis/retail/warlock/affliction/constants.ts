@@ -5,12 +5,11 @@ import Combatant from 'parser/core/Combatant';
 export const SPELL_COLORS = {
   AGONY: '#dd8811',
   CORRUPTION: '#692023',
-  DREAD_TOUCH: '#2D1336',
+  DREAD_TOUCH: '#2d1336',
   HAUNT: '#7dc678',
   SIPHON_LIFE: '#234d16',
   UNSTABLE_AFFLICTION: '#cc7b53',
   SHADOW_EMBRACE: '#7081e7',
-  UPTIME: '#00FF00',
 };
 
 const defaultDurations = {
