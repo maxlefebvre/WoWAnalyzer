@@ -40,6 +40,7 @@ import CallToDominance from 'parser/retail/modules/items/dragonflight/CallToDomi
 import ShadowEmbraceStackGraph from './modules/spells/ShadowEmbraceStackGraph';
 import ShadowEmbraceStackTracker from './modules/spells/ShadowEmbraceStackTracker';
 import Guide from './Guide';
+import SoulEatersGluttony from './modules/features/SoulEatersGluttony';
 
 class CombatLogParser extends CoreCombatLogParser {
   static specModules = {
@@ -65,6 +66,7 @@ class CombatLogParser extends CoreCombatLogParser {
     darkglare: Darkglare,
     shadowEmbrace: ShadowEmbrace,
     demonicCirclesCreated: DemonicCirclesCreated,
+    soulEatersGluttony: SoulEatersGluttony,
 
     // DoTs
     agonyUptime: AgonyUptime,
