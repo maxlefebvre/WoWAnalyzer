@@ -64,6 +64,18 @@ export const Zerotorescue: Contributor = {
   avatar: avatar('zerotorescue-avatar.jpg'),
   about: 'WoWAnalyzer founder',
 };
+export const Amryu: Contributor = {
+  nickname: 'Amryu',
+  github: 'Amryu',
+  discord: '@amryu',
+  mains: [
+    {
+      name: 'Amryu',
+      spec: SPECS.FURY_WARRIOR,
+      link: 'https://classic.warcraftlogs.com/character/eu/everlook/amryu',
+    },
+  ],
+};
 
 export const Fashathus: Contributor = {
   nickname: 'Fashathus',
@@ -2293,4 +2305,15 @@ export const Whispyr: Contributor = {
   github: 'JannickMueller-Whispyr',
   discord: 'Whispyr#0001',
   avatar: avatar('Whispyr-avatar.png'),
+};
+export const Amelydia: Contributor = {
+  nickname: 'Amelydia',
+  github: 'kmains',
+  mains: [
+    {
+      name: 'Amelydia',
+      spec: SPECS.CLASSIC_DRUID_FERAL_COMBAT,
+      link: 'https://classic.warcraftlogs.com/character/us/atiesh/Amelydia',
+    },
+  ],
 };

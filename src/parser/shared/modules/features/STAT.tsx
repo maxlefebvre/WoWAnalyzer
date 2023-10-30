@@ -1,5 +1,6 @@
 import { Trans } from '@lingui/macro';
 import AgilityIcon from 'interface/icons/Agility';
+import ArmorIcon from 'interface/icons/Armor';
 import AvoidanceIcon from 'interface/icons/Avoidance';
 import CriticalStrikeIcon from 'interface/icons/CriticalStrike';
 import HasteIcon from 'interface/icons/Haste';
@@ -13,25 +14,41 @@ import StaminaIcon from 'interface/icons/Stamina';
 import StrengthIcon from 'interface/icons/Strength';
 import VersatilityIcon from 'interface/icons/Versatility';
 
-enum STAT {
-  HEALTH = 'health',
-  STAMINA = 'stamina',
-  MANA = 'mana',
+export enum PRIMARY_STAT {
   STRENGTH = 'strength',
   AGILITY = 'agility',
   INTELLECT = 'intellect',
+}
+
+export enum SECONDARY_STAT {
   CRITICAL_STRIKE = 'criticalstrike',
   HASTE = 'haste',
-  HASTE_HPCT = 'hastehpct',
-  HASTE_HPM = 'hastehpm',
   MASTERY = 'mastery',
   VERSATILITY = 'versatility',
+}
+
+export enum OTHER_STAT {
+  HEALTH = 'health',
+  STAMINA = 'stamina',
+  MANA = 'mana',
+  HASTE_HPCT = 'hastehpct',
+  HASTE_HPM = 'hastehpm',
   VERSATILITY_DR = 'versatilitydr',
   LEECH = 'leech',
   AVOIDANCE = 'avoidance',
   SPEED = 'speed',
+  ARMOR = 'armor',
   UNKNOWN = 'unknown',
 }
+
+type STAT = PRIMARY_STAT | SECONDARY_STAT | OTHER_STAT;
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+const STAT = {
+  ...PRIMARY_STAT,
+  ...SECONDARY_STAT,
+  ...OTHER_STAT,
+};
 
 export default STAT;
 
@@ -69,6 +86,8 @@ export function getName(stat: STAT) {
       return 'Avoidance';
     case STAT.SPEED:
       return 'Speed';
+    case STAT.ARMOR:
+      return 'Armor';
     default:
       return null;
   }
@@ -109,6 +128,8 @@ export function getNameTranslated(stat: STAT) {
       return <Trans id="common.stat.avoidance">Avoidance</Trans>;
     case STAT.SPEED:
       return <Trans id="common.stat.speed">Speed</Trans>;
+    case STAT.ARMOR:
+      return <Trans id="common.stat.armor">Armor</Trans>;
     default:
       return null;
   }
@@ -148,6 +169,8 @@ export function getClassNameColor(stat: STAT) {
       return 'stat-avoidance';
     case STAT.SPEED:
       return 'stat-speed';
+    case STAT.ARMOR:
+      return 'stat-armor';
     default:
       return null;
   }
@@ -191,6 +214,8 @@ export function getIcon(stat: STAT): (props: any) => JSX.Element {
       return AvoidanceIcon;
     case STAT.SPEED:
       return SpeedIcon;
+    case STAT.ARMOR:
+      return ArmorIcon;
     default:
       return (parms) => <></>;
   }

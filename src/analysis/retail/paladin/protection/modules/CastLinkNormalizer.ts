@@ -153,26 +153,30 @@ const EVENT_LINKS: EventLink[] = [
   },
 ];
 
-class MyAbilityNormalizer extends EventLinkNormalizer {
+class CastLinkNormalizer extends EventLinkNormalizer {
   constructor(options: Options) {
     super(options, [...EVENT_LINKS]);
   }
 }
 
 export function gcJudgmentCrit(event: ApplyBuffEvent | RefreshBuffEvent): DamageEvent | undefined {
-  return GetRelatedEvents(event, GRAND_CRUSADER_JUDGMENT_CRIT)
-    .filter((e): e is DamageEvent => e.type === EventType.Damage)
-    .at(-1);
+  return GetRelatedEvents<DamageEvent>(
+    event,
+    GRAND_CRUSADER_JUDGMENT_CRIT,
+    (e): e is DamageEvent => e.type === EventType.Damage,
+  ).at(-1);
 }
 
 export function getHardcast(event: DamageEvent): CastEvent | undefined {
-  return GetRelatedEvents(event, FROM_HARDCAST)
-    .filter((e): e is CastEvent => e.type === EventType.Cast)
-    .at(-1);
+  return GetRelatedEvents<CastEvent>(
+    event,
+    FROM_HARDCAST,
+    (e): e is CastEvent => e.type === EventType.Cast,
+  ).at(-1);
 }
 
 export function consumedProc(event: DamageEvent): boolean {
   return HasRelatedEvent(event, CONSUMED_PROC);
 }
 
-export default MyAbilityNormalizer;
+export default CastLinkNormalizer;

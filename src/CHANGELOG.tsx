@@ -23,12 +23,37 @@ import {
   Awildfivreld,
   nullDozzer,
   Bigsxy,
+  Seriousnes,
+  Arlie,
 } from 'CONTRIBUTORS';
 import { ItemLink } from 'interface';
 import SpellLink from 'interface/SpellLink';
 
 // prettier-ignore
 export default [
+  change(date(2023, 10, 27), 'Change the actions and reducers into slices.', Arlie),
+  change(date(2023, 10, 26), 'Fix an issue when getting damage/healing contribution from crit effects for certain effects that affect total damage', Putro),
+  change(date(2023, 10, 26), 'Add background images for Amirdrassil bosses.', ToppleTheNun),
+  change(date(2023, 10, 26), <>Correct <SpellLink spell={SPELLS.MIGHT_OF_THE_MOUNTAIN} /> to work with pets and count them twice as the effect is effectively doubled in-game.</>, Putro),
+  change(date(2023, 10, 22), 'Rename all .js files to .jsx.', ToppleTheNun),
+  change(date(2023, 10, 22), 'Remove articles.', ToppleTheNun),
+  change(date(2023, 10, 22), 'Fix statistic ordering on the stats page.', emallson),
+  change(date(2023, 10, 20), <>Refactor <ItemLink id={ITEMS.VOICE_OF_THE_SILENT_STAR.id}/> module to correcly grant and steal the correct stats depending on your current stats.</>, nullDozzer),
+  change(date(2023, 10, 20), <>Add stat tracking and statistics for all Dragonflight Weapon Enchants such as <SpellLink spell={SPELLS.WAFTING_DEVOTION_ENCHANT}/> and <SpellLink spell={SPELLS.SPORE_TENDER_ENCHANT} />.</>, nullDozzer),
+  change(date(2023, 10, 16), 'Fix some variable capitalizations', Trevor),
+  change(date(2023, 10, 14), 'Paginate data loading, allowing M+ to be re-enabled for most specs', emallson),
+  change(date(2023, 10, 12), <>Make ICC the default Classic zone.</>, emallson),
+  change(date(2023, 10, 12), 'Simplify checking if a fight is M+.', ToppleTheNun),
+  change(date(2023, 10, 9), 'Add Amirdrassil raid data.', ToppleTheNun),
+  change(date(2023, 10, 9), 'Remove Burning Crusade raid data.', ToppleTheNun),
+  change(date(2023, 10, 9), 'Bump retail version to 10.1.7.', ToppleTheNun),
+  change(date(2023, 10, 9), 'Add T31 set IDs.', ToppleTheNun),
+  change(date(2023, 10, 8), 'Improve spell auto-detection to hopefully include talents.', ToppleTheNun),
+  change(date(2023, 10, 7), <>Add support for ICC bosses.</>, emallson),
+  change(date(2023, 10, 3), <>Refactor code for related event retrieval.</>, Seriousnes),
+  change(date(2023, 10, 1), <>Improve code for coloring texts and backgrounds by <span className='Paladin'>player</span> <span className='Warrior'>classes</span>.</>, nullDozzer),
+  change(date(2023, 10, 1), <>Refactor of effects that grant "Primary Stat" such as <ItemLink id={ITEMS.ELEMENTAL_POTION_OF_ULTIMATE_POWER_R3.id} /> and <ItemLink id={ITEMS.DRACONIC_AUGMENT_RUNE.id} /> to only provide current stat and thus match logged values better.</>, nullDozzer),
+  change(date(2023, 9, 30), "Removed `shownSpell` from Ability type as it's no longer used.", Putro),
   change(date(2023, 9, 25), 'Reset scrollposition to top of window when navigating within app except when switching tabs. This fixes a scenario where you would end up staring at the pages footer after clicking a spec on the Specs page.', nullDozzer),
   change(date(2023, 9, 25), 'Fix broken drilldown link in always be casting module that is used my multiple specs', nullDozzer),
   change(date(2023, 9, 25), 'Fix Patreon / GitHub login buttons', emallson),

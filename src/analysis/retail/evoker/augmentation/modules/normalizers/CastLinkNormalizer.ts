@@ -132,9 +132,9 @@ const EVENT_LINKS: EventLink[] = [
     linkRelation: BREATH_OF_EONS_CAST_BUFF_LINK,
     reverseLinkRelation: BREATH_OF_EONS_CAST_BUFF_LINK,
     linkingEventId: TALENTS.BREATH_OF_EONS_TALENT.id,
-    linkingEventType: [EventType.ApplyBuff, EventType.RemoveBuff, EventType.Cast],
+    linkingEventType: [EventType.Cast],
     referencedEventId: TALENTS.BREATH_OF_EONS_TALENT.id,
-    referencedEventType: [EventType.ApplyBuff, EventType.RemoveBuff, EventType.Cast],
+    referencedEventType: [EventType.ApplyBuff, EventType.RemoveBuff],
     anyTarget: true,
     forwardBufferMs: BREATH_OF_EONS_BUFF_BUFFER,
   },
@@ -231,43 +231,57 @@ class CastLinkNormalizer extends EventLinkNormalizer {
 }
 
 export function getPrescienceBuffEvents(event: CastEvent): ApplyBuffEvent[] {
-  return GetRelatedEvents(event, PRESCIENCE_BUFF_CAST_LINK).filter(
+  return GetRelatedEvents(
+    event,
+    PRESCIENCE_BUFF_CAST_LINK,
     (e): e is ApplyBuffEvent => e.type === EventType.ApplyBuff || e.type === EventType.RefreshBuff,
   );
 }
 
 export function getEbonMightBuffEvents(event: ApplyBuffEvent | RefreshBuffEvent): ApplyBuffEvent[] {
-  return GetRelatedEvents(event, EBON_MIGHT_BUFF_LINKS).filter(
+  return GetRelatedEvents(
+    event,
+    EBON_MIGHT_BUFF_LINKS,
     (e): e is ApplyBuffEvent => e.type === EventType.ApplyBuff || e.type === EventType.RefreshBuff,
   );
 }
 
 export function getBreathOfEonsDebuffApplyEvents(event: CastEvent): ApplyDebuffEvent[] {
-  return GetRelatedEvents(event, BREATH_OF_EONS_CAST_DEBUFF_APPLY_LINK).filter(
+  return GetRelatedEvents(
+    event,
+    BREATH_OF_EONS_CAST_DEBUFF_APPLY_LINK,
     (e): e is ApplyDebuffEvent => e.type === EventType.ApplyDebuff,
   );
 }
 
 export function getBreathOfEonsBuffEvents(event: CastEvent): ApplyBuffEvent[] {
-  return GetRelatedEvents(event, BREATH_OF_EONS_CAST_BUFF_LINK).filter(
+  return GetRelatedEvents(
+    event,
+    BREATH_OF_EONS_CAST_BUFF_LINK,
     (e): e is ApplyBuffEvent => e.type === EventType.ApplyBuff || e.type === EventType.RemoveBuff,
   );
 }
 
 export function getBreathOfEonsDamageEvents(event: RemoveDebuffEvent): DamageEvent[] {
-  return GetRelatedEvents(event, BREATH_OF_EONS_DAMAGE_LINK).filter(
+  return GetRelatedEvents(
+    event,
+    BREATH_OF_EONS_DAMAGE_LINK,
     (e): e is DamageEvent => e.type === EventType.Damage,
   );
 }
 
 export function getEruptionDamageEvents(event: CastEvent): DamageEvent[] {
-  return GetRelatedEvents(event, ERUPTION_CAST_DAM_LINK).filter(
+  return GetRelatedEvents(
+    event,
+    ERUPTION_CAST_DAM_LINK,
     (e): e is DamageEvent => e.type === EventType.Damage,
   );
 }
 
 export function getPupilDamageEvents(event: CastEvent): DamageEvent[] {
-  return GetRelatedEvents(event, PUPIL_OF_ALEXSTRASZA_LINK).filter(
+  return GetRelatedEvents(
+    event,
+    PUPIL_OF_ALEXSTRASZA_LINK,
     (e): e is DamageEvent => e.type === EventType.Damage,
   );
 }
@@ -280,7 +294,7 @@ export function isFromTipTheScales(event: CastEvent) {
   return HasRelatedEvent(event, TIP_THE_SCALES_CONSUME);
 }
 
-export function ebonIsFromBreath(event: ApplyBuffEvent) {
+export function ebonIsFromBreath(event: ApplyBuffEvent | CastEvent) {
   return HasRelatedEvent(event, BREATH_EBON_APPLY_LINK);
 }
 

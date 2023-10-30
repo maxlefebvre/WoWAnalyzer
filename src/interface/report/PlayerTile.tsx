@@ -1,6 +1,6 @@
+import classColor from 'game/classColor';
 import getAverageItemLevel from 'game/getAverageItemLevel';
 import { getClassName } from 'game/ROLES';
-import { fetchCharacter } from 'interface/actions/characters';
 import Icon from 'interface/Icon';
 import { getCharacterById } from 'interface/selectors/characters';
 import SpecIcon from 'interface/SpecIcon';
@@ -16,9 +16,10 @@ import { useWaDispatch } from 'interface/utils/useWaDispatch';
 import { useWaSelector } from 'interface/utils/useWaSelector';
 import { makeThumbnailUrl } from 'interface/makeAnalyzerUrl';
 import { useLingui } from '@lingui/react';
-import { Spec } from 'game/SPECS';
-import { isFightDungeon } from 'common/isFightDungeon';
+import SPECS, { Spec } from 'game/SPECS';
 import { useFight } from 'interface/report/context/FightContext';
+import { isMythicPlus } from 'common/isMythicPlus';
+import { fetchCharacter } from 'interface/reducers/charactersById';
 
 interface BlockLoadingProps {
   children: ReactNode;
@@ -69,7 +70,7 @@ const PlayerTileContents = ({ avatar, player, spec }: PlayerTileContentsProps) =
         <div className="avatar" style={{ backgroundImage: `url(${avatar})` }} />
         <div className="about">
           <h1
-            className={i18n._(spec.className).replace(' ', '')}
+            className={classColor(spec)}
             // The name can't always fit so use a tooltip. We use title instead of the tooltip library for this because we don't want it to be distracting and the tooltip library would popup when hovering just to click an item, while this has a delay.
             title={player.name}
           >
@@ -92,11 +93,15 @@ const PlayerTileContents = ({ avatar, player, spec }: PlayerTileContentsProps) =
 interface PlayerTileProps {
   player: Player;
   makeUrl: (playerId: number, build?: string) => string;
-  anyAugmentationEvokers?: boolean;
   config?: Config;
 }
 
-const PlayerTile = ({ player, makeUrl, anyAugmentationEvokers, config }: PlayerTileProps) => {
+// specs with performance issues during analysis. the "can i load this on my underpowered laptop" test is how things end up here.
+function isSpecDisabledInDungeons(spec: Spec): boolean {
+  return spec.id === SPECS.FIRE_MAGE.id;
+}
+
+const PlayerTile = ({ player, makeUrl, config }: PlayerTileProps) => {
   const classic = player.combatant.expansion === CLASSIC_EXPANSION_NAME;
   const characterInfo = useWaSelector((state) => getCharacterById(state, player.guid));
   const dispatch = useWaDispatch();
@@ -108,10 +113,10 @@ const PlayerTile = ({ player, makeUrl, anyAugmentationEvokers, config }: PlayerT
         return null;
       }
 
+      const { server, region, guid, name } = player;
+
       try {
-        return await dispatch(
-          fetchCharacter(player.guid, player.region, player.server, player.name, classic),
-        );
+        return await dispatch(fetchCharacter({ guid, name, server, region, classic }));
       } catch (err) {
         // No biggy, just show less info
         console.error('An error occurred fetching', player, '. The error:', err);
@@ -152,9 +157,9 @@ const PlayerTile = ({ player, makeUrl, anyAugmentationEvokers, config }: PlayerT
       />
     );
   }
-  if (anyAugmentationEvokers && isFightDungeon(fight)) {
+  if (isMythicPlus(fight) && isSpecDisabledInDungeons(spec)) {
     return (
-      <BlockLoading message="M+ logs containing Augmentation Evoker are currently not supported due to issues with retrieving the appropriate data for analysis. Augmentation is still supported for raid and we hope to re-enable it for M+ soon.">
+      <BlockLoading message="This spec is currently disabled in M+ due to the large number of events generated causing performance problems.">
         <PlayerTileContents avatar={avatar} player={player} spec={spec} />
       </BlockLoading>
     );
